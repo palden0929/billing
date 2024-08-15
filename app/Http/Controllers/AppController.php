@@ -3,34 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Party;
 
 class AppController extends Controller
 {
     public function index()
     {
-        $name = "Palden";
-        $phone = "9841567890";
-        $city = "Kathmandu";
+        // Insert
+        $party = new Party();
+        $party->full_name = "Palden Lama";
+        $party->phone_no = "9845554151";
+        //$party->save();
 
-        // #Using compact
-        // return view("welcome", compact("name","phone","city"));
+        // Insert - option 2
+        $param = array(
+            "full_name" => "Ajit",
+            "phone_no" => "9841098765",
+            "city" => "Sundarijal",
+            "address" => "Fata Tol",
+        );
+        //Party::create($param);
 
-        // #Using associative array
-        // return view("welcome",array(
-        //     'name1' => $name,
-        //     'phone' => $phone,
-        //     'city' => $city,        ));
+        // Select all records
+        $parties = Party::all();
+        //dd($parties);
 
-        // #Using with method
-        // return view("welcome")
-        // ->with('name', $name)
-        // ->with('phone', $phone)
-        // ->with('city', $city);
+        // Select one record by id
+        // $id = 1;
+        //$party = Party::find($id);
+        //dd($party);
 
-        $data['name'] = "Palden";
-        $data["phone"] = "9841456789";
-        $data["city"] = "Kathmandu";
-        return view("welcome", $data);
+        // Select one record by another column/field
+        // $party = Party::where("phone_no","9841098765")->get();
+        // dd($party);
+
+        //Update
+        $id = 1;
+        $party = Party::find($id);
+        $party->full_name = "Suman Shrestha";
+        $party->phone_no = "9841567890";
+        //$party->save();
+
+        //Delete
+        $id = 3;
+        $party = Party::find($id);
+        $party->delete();
+
+        return "Database Operations";
+        //return view("welcome");
     }
 
     public function about()
